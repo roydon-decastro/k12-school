@@ -45,4 +45,9 @@ class School extends Model
         return $this->hasMany(SchoolYear::class);
     }
 
+    public function sectionstudent()
+    {
+        // return $this->belongsTo(SectionStudent::class);
+        return $this->hasMany(SectionStudent::class);
+    }
 }

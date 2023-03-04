@@ -17,4 +17,36 @@ class SectionStudent extends Model
         'student_id'
 
     ];
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function section()
+    {
+        // return $this->hasMany(Section::class);
+        return $this->belongsTo(Section::class);
+    }
+
+
+    public function school()
+    {
+        return $this->belongsTo(School::class);
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
+    public function schoolyear()
+    {
+        return $this->belongsTo(SchoolYear::class);
+    }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
 }

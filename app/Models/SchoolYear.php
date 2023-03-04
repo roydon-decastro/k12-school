@@ -22,5 +22,9 @@ class SchoolYear extends Model
         return $this->belongsTo(School::class);
     }
 
+    public function sectionstudent()
+    {
+        return $this->hasMany(SectionStudent::class);
+    }
 
 }

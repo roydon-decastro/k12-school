@@ -18,7 +18,7 @@ class BuildingResource extends Resource
 {
     protected static ?string $model = Building::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-office-building';
 
     protected static ?string $navigationGroup = 'School Admin';
 

@@ -42,4 +42,19 @@ class Student extends Model
         return $this->belongsTo(Level::class);
     }
 
+    // public function sectionstudent()
+    // {
+    //     return $this->belongsTo(SectionStudent::class);
+    // }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class);
+    }
+
+    public function sectionstudent()
+    {
+        return $this->hasMany(SectionStudent::class);
+    }
+
 }

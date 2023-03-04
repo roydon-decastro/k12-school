@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\StudentResource\Pages;
+namespace App\Filament\Resources\SectionStudentResource\Pages;
 
-use App\Filament\Resources\StudentResource;
+use App\Filament\Resources\SectionStudentResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 
-class ListStudents extends ListRecords
+class ListSectionStudents extends ListRecords
 {
-    protected static string $resource = StudentResource::class;
+    protected static string $resource = SectionStudentResource::class;
 
     protected function getTableRecordsPerPageSelectOptions(): array
     {

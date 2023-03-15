@@ -27,4 +27,9 @@ class SchoolYear extends Model
         return $this->hasMany(SectionStudent::class);
     }
 
+    public function levelsubject()
+    {
+        return $this->hasMany(LevelSubject::class);
+    }
+
 }

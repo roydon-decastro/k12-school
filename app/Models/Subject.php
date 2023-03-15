@@ -19,4 +19,9 @@ class Subject extends Model
         'is_standard' => 'boolean',
     ];
 
+    public function levelsubject()
+    {
+        return $this->hasMany(LevelSubject::class);
+    }
+
 }

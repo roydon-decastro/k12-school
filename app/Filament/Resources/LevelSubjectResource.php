@@ -4,27 +4,24 @@ namespace App\Filament\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
-use App\Models\Student;
+use App\Models\LevelSubject;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
-use App\Models\SectionStudent;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\SectionStudentResource\Pages;
-use App\Filament\Resources\SectionStudentResource\RelationManagers;
+use App\Filament\Resources\LevelSubjectResource\Pages;
+use App\Filament\Resources\LevelSubjectResource\RelationManagers;
 
-class SectionStudentResource extends Resource
+class LevelSubjectResource extends Resource
 {
-    protected static ?string $model = SectionStudent::class;
+    protected static ?string $model = LevelSubject::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    protected static ?string $navigationGroup = 'Student Admin';
-
-
+    protected static ?string $navigationGroup = 'School Admin';
 
     public static function form(Form $form): Form
     {
@@ -38,23 +35,21 @@ class SectionStudentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id'),
                 TextColumn::make('school.name'),
                 TextColumn::make('schoolyear.name')->label('Academic Year'),
                 TextColumn::make('level.name')->searchable(),
-                TextColumn::make('section.name')->sortable()->searchable(),
-                TextColumn::make('student.name')
-                    ->getStateUsing(function (SectionStudent $record): string {
-                        return ucwords($record->student->name);
+                TextColumn::make('subject.name')
+                    ->getStateUsing(function (LevelSubject $record): string {
+                        return ucwords($record->subject->name);
                     })
-                    ->label('Students')
+                    ->label('Subjects')
                     ->searchable(),
             ])
             ->filters([
                 SelectFilter::make('school_id')->relationship('school', 'name')->label('School'),
                 SelectFilter::make('schoolyear_id')->relationship('schoolyear', 'name')->label('School Year'),
                 SelectFilter::make('level_id')->relationship('level', 'name')->label('Level'),
-                SelectFilter::make('section_id')->relationship('section', 'name')->label('Section'),
+                SelectFilter::make('subject_id')->relationship('subject', 'name')->label('Subject'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -74,9 +69,9 @@ class SectionStudentResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListSectionStudents::route('/'),
-            'create' => Pages\CreateSectionStudent::route('/create'),
-            'edit' => Pages\EditSectionStudent::route('/{record}/edit'),
+            'index' => Pages\ListLevelSubjects::route('/'),
+            'create' => Pages\CreateLevelSubject::route('/create'),
+            'edit' => Pages\EditLevelSubject::route('/{record}/edit'),
         ];
     }
 }

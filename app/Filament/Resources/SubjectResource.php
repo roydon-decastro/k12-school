@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\SubjectResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\SubjectResource\RelationManagers;
+use App\Models\LevelSubject;
 
 class SubjectResource extends Resource
 {
@@ -62,21 +63,20 @@ class SubjectResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                BulkAction::make('Assign Subjects To a Section')
+                BulkAction::make('Assign Subjects To a Level')
                     ->action(function (Collection $records, array $data): void {
                         // dd($records);
-                        dd($data);
+                        // dd($data);
                         foreach ($records as $record) {
                             // dd($record);
                             // $record->assigned = 1;
                             // $record->save();
-                            $section_subject = new SectionSubject;
-                            $section_subject->school_id = 2; // getback
-                            $section_subject->schoolyear_id = $data['schoolyear_id'];
-                            $section_subject->level_id = $data['level_id'];
-                            $section_subject->section_id = $data['section_id'];
-                            $section_subject->student_id = $record->id;
-                            $section_subject->save();
+                            $level_subject = new LevelSubject();
+                            $level_subject->school_id = 2; // getback
+                            $level_subject->schoolyear_id = $data['schoolyear_id'];
+                            $level_subject->level_id = $data['level_id'];
+                            $level_subject->subject_id = $record->id;
+                            $level_subject->save();
                         }
                     })
                     ->requiresConfirmation()
@@ -96,31 +96,31 @@ class SubjectResource extends Resource
                             ->required()
                             ->reactive()
                             ->afterStateUpdated(fn (callable $set) => $set('section_id', null)),
-                        Forms\Components\Select::make('section_id')
-                            ->label('Section')
-                            ->required()
-                            ->options(function (callable $get) {
-                                $level = Level::find($get('level_id'));
-                                if (!$level) {
-                                    return Section::all()->pluck('name', 'id');
-                                }
-                                return $level->sections->pluck('name', 'id');
-                            })
-                            ->reactive(),
-                        Forms\Components\CheckboxList::make('technologies')
+                        // Forms\Components\Select::make('section_id')
+                        //     ->label('Section')
+                        //     ->required()
+                        //     ->options(function (callable $get) {
+                        //         $level = Level::find($get('level_id'));
+                        //         if (!$level) {
+                        //             return Section::all()->pluck('name', 'id');
+                        //         }
+                        //         return $level->sections->pluck('name', 'id');
+                        //     })
+                        //     ->reactive(),
+                        // Forms\Components\CheckboxList::make('technologies')
                             // ->options([
                             //     'tailwind' => 'Tailwind CSS',
                             //     'alpine' => 'Alpine.js',
                             //     'laravel' => 'Laravel',
                             //     'livewire' => 'Laravel Livewire',
                             // ])
-                            ->options(function (callable $get) {
-                                $level = Level::find($get('level_id'));
-                                if (!$level) {
-                                    return Section::all()->pluck('name', 'id');
-                                }
-                                return $level->sections->pluck('name', 'id');
-                            })
+                            // ->options(function (callable $get) {
+                            //     $level = Level::find($get('level_id'));
+                            //     if (!$level) {
+                            //         return Section::all()->pluck('name', 'id');
+                            //     }
+                            //     return $level->sections->pluck('name', 'id');
+                            // })
                     ])
                     ->deselectRecordsAfterCompletion()
                     ->color('success')

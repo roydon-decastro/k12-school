@@ -50,4 +50,9 @@ class School extends Model
         // return $this->belongsTo(SectionStudent::class);
         return $this->hasMany(SectionStudent::class);
     }
+
+    public function levelsubject()
+    {
+        return $this->hasMany(LevelSubject::class);
+    }
 }

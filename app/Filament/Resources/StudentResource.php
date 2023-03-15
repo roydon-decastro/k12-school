@@ -80,7 +80,7 @@ class StudentResource extends Resource
                 Tables\Columns\IconColumn::make('assigned')
                     ->label('Section Assigned')
                     ->boolean(),
-                Tables\Columns\TextColumn::make('lrn'),
+                Tables\Columns\TextColumn::make('lrn')->label('LRN'),
 
                 // Tables\Columns\TextColumn::make('join_date')
                 //     ->date(),

@@ -25,8 +25,9 @@ class DatabaseSeeder extends Seeder
         */
 
         // fyi Seeders
-        $this->call(LevelsTableSeeder::class);
+        $this->call(FacultyTableSeeder::class);
         /*
+        $this->call(LevelsTableSeeder::class);
         $this->call(StudentsTableSeeder::class);
         $this->call(SchoolsTableSeeder::class);
         $this->call(UsersTableSeeder::class); // error DONT RUN THIS NONCHALANTLY

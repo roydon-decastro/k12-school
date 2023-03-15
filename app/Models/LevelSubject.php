@@ -36,4 +36,9 @@ class LevelSubject extends Model
         return $this->belongsTo(Subject::class);
     }
 
+    public function sectionstudent()
+    {
+        return $this->belongsTo(SectionStudent::class);
+    }
+
 }

@@ -49,4 +49,14 @@ class SectionStudent extends Model
     {
         return $this->belongsTo(Student::class);
     }
+
+    public function levelsubject()
+    {
+        return $this->hasOne(LevelSubject::class);
+    }
+
+    public function gradestudent()
+    {
+        return $this->hasOne(GradeStudent::class);
+    }
 }

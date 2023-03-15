@@ -25,6 +25,8 @@ class LevelResource extends Resource
 
     protected static ?string $navigationGroup = 'School Admin';
 
+    protected static ?string $navigationLabel = 'Grade Levels';
+
     public static function form(Form $form): Form
     {
         return $form

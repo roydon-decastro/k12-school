@@ -47,7 +47,7 @@ class SubjectResource extends Resource
     {
         return $table
             ->columns([
-                // Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('short_name'),
                 Tables\Columns\IconColumn::make('is_standard')

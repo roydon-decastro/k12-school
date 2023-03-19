@@ -54,7 +54,7 @@ class Student extends Model
 
     public function sectionstudent()
     {
-        return $this->hasMany(SectionStudent::class);
+        return $this->belongsTo(SectionStudent::class);
     }
 
 }

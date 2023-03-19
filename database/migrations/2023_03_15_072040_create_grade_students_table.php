@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('grade_students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('section_student_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('faculty_id')->constrained()->cascadeOnDelete();
-            $table->json('grades');
+            $table->json('q1')->nullable();
+            $table->json('q2')->nullable();
+            $table->json('q3')->nullable();
+            $table->json('q4')->nullable();
             $table->timestamps();
         });
     }

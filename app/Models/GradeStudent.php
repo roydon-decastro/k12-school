@@ -11,12 +11,17 @@ class GradeStudent extends Model
 
     protected $fillable = [
         'section_student_id',
-        'faculty_id',
-        'grades',
+        'q1',
+        'q2',
+        'q3',
+        'q4',
     ];
 
     protected $casts = [
-        'grades' => 'array',
+        'q1' => 'array',
+        'q2' => 'array',
+        'q3' => 'array',
+        'q4' => 'array',
     ];
 
     public function sectionstudent()

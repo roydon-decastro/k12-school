@@ -37,14 +37,14 @@ class ListGrades extends Page
     public function updated()
     {
         $this->grade_students = DB::table('grade_students')
-                ->join('section_students', 'grade_students.section_student_id', '=', 'section_students.id')
-                ->join('sections', 'section_students.section_id', '=', 'sections.id')
-                ->join('students', 'section_students.student_id', '=', 'students.id')
-                ->join('levels', 'section_students.level_id', '=', 'levels.id')
-                ->join('school_years', 'section_students.schoolyear_id', '=', 'school_years.id')
-                ->where('section_students.section_id', '=', $this->selectedSection)
-                ->select('grade_students.*', 'students.name as studentName', 'sections.name as sectionName', 'school_years.name as schoolYearName', 'levels.name as levelName')
-                ->get();
+            ->join('section_students', 'grade_students.section_student_id', '=', 'section_students.id')
+            ->join('sections', 'section_students.section_id', '=', 'sections.id')
+            ->join('students', 'section_students.student_id', '=', 'students.id')
+            ->join('levels', 'section_students.level_id', '=', 'levels.id')
+            ->join('school_years', 'section_students.schoolyear_id', '=', 'school_years.id')
+            ->where('section_students.section_id', '=', $this->selectedSection)
+            ->select('grade_students.*', 'students.name as studentName', 'sections.name as sectionName', 'school_years.name as schoolYearName', 'levels.name as levelName')
+            ->get();
         $this->section_students = DB::table('section_students')
             ->join('students', 'section_students.student_id', '=', 'students.id')
             ->where('section_students.section_id', '=', $this->selectedSection)
@@ -110,5 +110,13 @@ class ListGrades extends Page
             //     ->where('sections.level_id', '=', $this->grade_level)
             //     ->get();
         }
+    }
+
+    public function goToUpdateGrades($id)
+    {
+        // dd($id);
+
+        // return redirect()->route('update-grade', ['id' => $id]);
+        return redirect()->to('admin/update-grades?student_id='. $id);
     }
 }

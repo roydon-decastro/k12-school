@@ -185,6 +185,11 @@ class StudentResource extends Resource
         ];
     }
 
+    protected static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
+
     public static function getPages(): array
     {
         return [

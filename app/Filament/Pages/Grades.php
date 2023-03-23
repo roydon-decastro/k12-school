@@ -105,8 +105,8 @@ class Grades extends Page
         // if ($validatedData[$this->quarter] == '-1') {
         //     return redirect()->back()->withErrors([$this->quarter => 'Please select a valid option']);
         // }
-        dd($this->quarter);
-
+        // dd($this->quarter);
+        // dd($this->student_grades);
         foreach ($this->student_grades as $ind_student_grade) {
             switch ($this->quarter) {
                 case ('1'):

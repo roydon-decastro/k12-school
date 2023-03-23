@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+// use Filament\Facades\Filament;
+// use Filament\Navigation\NavigationBuilder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,5 +22,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        // Filament::navigation(function (NavigationBuilder $builder): NavigationBuilder {
+        //     return $builder;
+        // });
     }
+
+
+
 }

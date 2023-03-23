@@ -3,14 +3,6 @@
     <form wire:submit.prevent="submit" class="w-full">
         @csrf
 
-        <div>
-            @if (session()->has('message'))
-                <div class="alert alert-success">
-                    {{ session('message') }}
-                </div>
-            @endif
-        </div>
-
         <div class="p-6 bg-white  rounded-lg shadow  dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 columns-1 ">
             <div class="mb-6">
                 <div class="flex">
@@ -64,8 +56,10 @@
                                 <div class="flex mt-4">
                                     @foreach ($level_subjects as $index2 => $level_subject )
                                     <div class="mr-2">
-                                        <label for="student_grades.{{$index}}.grades.{{$index2}}.{{$level_subject->name}}" class="block mt-3 mb-1 text-sm font-normal dark:text-white">{{$level_subject->short_name}}</label>
-                                        <input wire:model="student_grades.{{$index}}.grades.{{$index2}}.{{$level_subject->name}}" class="w-20 bg-white  border border-gray-200 rounded-lg " type="number" max="100">
+                                        {{-- <label for="student_grades.{{$index}}.grades.{{$index2}}.{{$level_subject->name}}" class="block mt-3 mb-1 text-sm font-normal dark:text-white">{{$level_subject->short_name}}</label>
+                                        <input wire:model="student_grades.{{$index}}.grades.{{$index2}}.{{$level_subject->name}}" class="w-20 bg-white  border border-gray-200 rounded-lg " type="number" max="100"> --}}
+                                        <label for="student_grades.{{$index}}.grades.{{$level_subject->name}}" class="block mt-3 mb-1 text-sm font-normal dark:text-white">{{$level_subject->short_name}}</label>
+                                        <input wire:model="student_grades.{{$index}}.grades.{{$level_subject->name}}" class="w-20 bg-white  border border-gray-200 rounded-lg " type="number" max="100">
                                     </div>
                                     @endforeach
                                 </div>

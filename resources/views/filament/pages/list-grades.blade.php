@@ -7,6 +7,7 @@
             </div>
         @endif
     </div>
+
     <div class="mb-6">
         <div class="flex">
 
@@ -54,68 +55,93 @@
                         <tbody>
                             @php
                                 $q1_grade_subjects = json_decode($grade_student->q1,true);
+                                $outputArray = [];
+
                                 if ($grade_student->q2 != null) {
                                     $q2_grade_subjects = json_decode($grade_student->q2,true);
+
                                     foreach ($q1_grade_subjects as $key => $value) {
                                         if (isset($q2_grade_subjects[$key])) {
-                                            $q1_grade_subjects[$key] = array_merge_recursive($value, $q2_grade_subjects[$key]);
+                                            $outputArray[$key] = [$value, $q2_grade_subjects[$key]];
                                         }
                                     }
+                                    // dd($outputArray);
+                                    // foreach ($q1_grade_subjects as $key => $value) {
+                                    //     if (isset($q2_grade_subjects[$key])) {
+                                    //         $q1_grade_subjects[$key] = array_merge_recursive($value, $q2_grade_subjects[$key]);
+                                    //     }
+                                    // }
                                 }
                                 if ($grade_student->q3 != null) {
                                     $q3_grade_subjects = json_decode($grade_student->q3,true);
-                                    foreach ($q1_grade_subjects as $key => $value) {
+                                    foreach ($outputArray as $key => &$value) {
                                         if (isset($q3_grade_subjects[$key])) {
-                                            $q1_grade_subjects[$key] = array_merge_recursive($value, $q3_grade_subjects[$key]);
+                                            $value[] = $q3_grade_subjects[$key];
                                         }
                                     }
+                                    // dd($outputArray);
+                                    // foreach ($q1_grade_subjects as $key => $value) {
+                                    //     if (isset($q3_grade_subjects[$key])) {
+                                    //         $q1_grade_subjects[$key] = array_merge_recursive($value, $q3_grade_subjects[$key]);
+                                    //     }
+                                    // }
                                 }
                                 if ($grade_student->q4 != null) {
                                     $q4_grade_subjects = json_decode($grade_student->q4,true);
-                                    foreach ($q1_grade_subjects as $key => $value) {
+                                    foreach ($outputArray as $key => &$value) {
                                         if (isset($q4_grade_subjects[$key])) {
-                                            $q1_grade_subjects[$key] = array_merge_recursive($value, $q4_grade_subjects[$key]);
+                                            $value[] = $q4_grade_subjects[$key];
                                         }
                                     }
+                                    // dd($outputArray);
+                                    // foreach ($q1_grade_subjects as $key => $value) {
+                                    //     if (isset($q4_grade_subjects[$key])) {
+                                    //         $q1_grade_subjects[$key] = array_merge_recursive($value, $q4_grade_subjects[$key]);
+                                    //     }
+                                    // }
                                 }
                                     // $all_grades = array_merge_recursive($q1_grade_subjects, $q2_grade_subjects);
 
                                 // dd($q1_grade_subjects);
                             @endphp
                              {{-- @foreach (json_decode($grade_student->q1, true) as $q1_grade_subjects ) --}}
-                                @foreach ($q1_grade_subjects as $key => $value1 )
-                                        {{-- @dd($value1) --}}
-                                        <tr>
-                                            @foreach ($value1 as $key2 => $value2 )
-                                                <td class="border border-slate-300 p-4">{{ $key2 }}</td>
-                                                @if (gettype($value2) === 'string')
-                                                    <td class="border border-slate-300 p-4 text-center">{{ $value2 }}</td>
-                                                    <td class="border border-slate-300 p-4 text-center"></td>
-                                                    <td class="border border-slate-300 p-4 text-center"></td>
-                                                    <td class="border border-slate-300 p-4 text-center"></td>
-                                                @else
-                                                    @foreach ($value2 as $key3 => $value3 )
-                                                        <td class="border border-slate-300 p-4 text-center">{{ $value3 }}</td>
-                                                    @endforeach
-                                                    @if (count($value2) == 2)
-                                                        <td class="border border-slate-300 p-4 text-center"></td>
-                                                        <td class="border border-slate-300 p-4 text-center"></td>
-                                                    @elseif (count($value2) == 3)
-                                                        <td class="border border-slate-300 p-4 text-center"></td>
-                                                    @endif
-                                                @endif
-                                            @endforeach
-                                        </tr>
+                             @if (!empty($outputArray))
+                                {{-- @dd('we have multiple quarters') --}}
+                                {{-- @dd($outputArray) --}}
+                                @foreach ($outputArray as $subject => $all_grades )
+                                    <tr>
+                                        <td class="border border-slate-300 p-4">{{ $subject }}</td>
+                                        @foreach ($all_grades as $index => $grade_per_quarter )
+                                            <td class="border border-slate-300 p-4 text-center">{{ $grade_per_quarter }}</td>
+                                        @endforeach
+                                    </tr>
+
                                 @endforeach
+
+                            @else
+                                {{-- @dd('we only have 1st quarter') --}}
+                                {{-- @dd(gettype($q1_grade_subjects)) --}}
+                                @foreach ($q1_grade_subjects as $subject => $grade )
+                                    <tr>
+                                        <td class="border border-slate-300 p-4">{{ $subject }}</td>
+                                        <td class="border border-slate-300 p-4 text-center">{{ $grade }}</td>
+                                        <td class="border border-slate-300 p-4 text-center"></td>
+                                        <td class="border border-slate-300 p-4 text-center"></td>
+                                        <td class="border border-slate-300 p-4 text-center"></td>
+                                    </tr>
+                                @endforeach
+
+
+                             @endif
                         </tbody>
                     </table>
                 </div>
                 <div class="mt-4">
-                    <form action="">
-                        @csrf
-                        <input class="w-20 bg-white  border border-gray-200 rounded-lg " type="text" value="{{ $grade_student->id }}" disabled>
-                        <button type="button" class="px-6 py-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Edit</button>
-                    </form>
+                    {{-- <form action=""> --}}
+                        {{-- @csrf --}}
+                        {{-- <input name="grade_student_id" class="w-20 bg-white  border border-gray-200 rounded-lg " type="text" value="{{ $grade_student->id }}" disabled>
+                        <button wire:click="goToUpdateGrades({{ $grade_student->id }})" type="button" class="px-6 py-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Edit</button> --}}
+                    {{-- </form> --}}
                 </div>
         </div>
         @endforeach

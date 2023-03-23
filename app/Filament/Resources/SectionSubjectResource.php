@@ -21,6 +21,8 @@ class SectionSubjectResource extends Resource
 
     protected static ?string $navigationGroup = 'Student Admin';
 
+    protected static bool $shouldRegisterNavigation = false;
+
     public static function form(Form $form): Form
     {
         return $form

@@ -32,4 +32,9 @@ class Level extends Model
     {
         return $this->hasMany(LevelSubject::class);
     }
+
+    public function levelfees()
+    {
+        return $this->hasMany(LevelFee::class);
+    }
 }

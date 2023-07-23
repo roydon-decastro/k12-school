@@ -1,0 +1,176 @@
+$section_students = DB::table('students')
+                ->join('section_students', 'students.id', '=', 'section_students.id')
+                ->get();
+$grade_students = DB::table('grade_students')
+                ->get();
+
+            $section_students = DB::table('section_students')
+                ->join('students', 'section_students.student_id', '=', 'students.id')
+
+			  	->select('section_students.*', 'students.name as studentName')
+                ->get();
+
+$grades = DB::table('grade_students')
+  				->join('section_students', 'grade_students.section_student_id', '=', 'section_students.id')
+  				->join('sections', 'section_students.section_id', '=', 'sections.id')
+  				->join('students', 'section_students.student_id', '=', 'students.id')
+  				->join('levels', 'section_students.level_id', '=', 'levels.id')
+  				->join('school_years', 'section_students.schoolyear_id', '=', 'school_years.id')
+  				->select('grade_students.*', 'students.name as studentName', 'sections.name as sectionName', 'school_years.name as schoolYearName', 'levels.name as levelName' )
+  				->get();
+
+// $subjects = DB::table('subjects')
+                // ->join('level_subjects', 'subjects.id', '=', 'level_subjects.subject_id')
+                // ->where('level_subjects.level_id', '=', 8)
+               // ->get();
+
+// $level_subjects = DB::table('level_subjects')
+                // ->join('level_subjects', 'subjects.id', '=', 'level_subjects.subject_id')
+                // ->where('level_subjects.level_id', '=', 8)
+//                ->get();
+
+
+
+
+            $section_students = DB::table('section_students')
+                ->join('students', 'section_students.student_id', '=', 'students.id')
+
+                ->select('section_students.*', 'students.name as studentName')
+                ->get();
+            $grade_students = DB::table('grade_students')
+                ->join('section_students', 'grade_students.section_student_id', '=', 'section_students.id')
+                ->join('sections', 'section_students.section_id', '=', 'sections.id')
+                ->join('students', 'section_students.student_id', '=', 'students.id')
+                ->join('levels', 'section_students.level_id', '=', 'levels.id')
+                ->join('school_years', 'section_students.schoolyear_id', '=', 'school_years.id')
+                ->where('section_students.student_id', '=', 1)
+                ->select('grade_students.*', 'students.name as studentName', 'sections.name as sectionName', 'school_years.name as schoolYearName', 'levels.name as levelName')
+                ->get();
+
+$grade_students = DB::table('grade_students')
+  				->join('section_students', 'grade_students.section_student_id', '=', 'section_students.id')
+  				->join('students', 'section_students.student_id', '=', 'students.id')
+                ->select('grade_students.*', 'students.name as studentName')
+  				->get();
+
+$section_students = DB::table('section_students')
+  				->join('students', 'section_students.student_id', '=', 'students.id')
+  				->where('section_students.section_id','=', 1)
+  				->get();
+$grade_student = GradeStudent::find(1);
+
+$section_students = DB::table('section_students')
+  				->leftJoin('students', 'section_students.student_id', '=', 'students.id')
+  				->leftJoin('sections', 'section_students.section_id', '=', 'sections.id')
+  				->where('section_students.section_id','=', 1)
+  				->select('students.name as studentName', 'sections.name as sectionName',
+						'section_students.level_id')
+  				->get();
+
+$absencesByMonth = DB::table('student_attendances')
+    ->select(DB::raw('student_id, YEAR(absent_date) as year, MONTH(absent_date) as month, COUNT(*) as absences'))
+    ->where('is_absent', true)
+    ->groupBy('student_id', 'year', 'month')
+    ->get()
+    ->groupBy('student_id')
+    ->map(function ($item) {
+        $year = $item->first()->year;
+        $result = [
+            'student_id' => $item->first()->student_id,
+            'year' => $year,
+            'month_absents' => [],
+        ];
+        foreach(range(1, 12) as $month) {
+            $absences = $item->where('month', $month)->sum('absences');
+            $result['month_absents'][$month] = $absences;
+        }
+        return $result;
+    })
+    ->values()
+    ->toArray();
+
+$absencesByMonth = DB::table('student_attendances')
+    ->select(DB::raw('student_id, YEAR(absent_date) as year, MONTH(absent_date) as month, COUNT(*) as absences'))
+    ->where('is_absent', true)
+    ->groupBy('student_id', 'year', 'month')
+    ->get()
+    ->groupBy('student_id')
+    ->map(function ($item) {
+        $year = $item->first()->year;
+        $result = [
+            'student_id' => $item->first()->student_id,
+            'year' => $year,
+            'month_absents' => [],
+        ];
+        foreach(range(6, 12) as $month) {
+            $absences = $item->where('month', $month)->sum('absences');
+            $result['month_absents'][$month.'/'.($year-1)] = $absences;
+        }
+        foreach(range(1, 3) as $month) {
+            $absences = $item->where('month', $month)->sum('absences');
+            $result['month_absents'][$month.'/'.$year] = $absences;
+        }
+        return $result;
+    })
+    ->values()
+    ->toArray();
+
+$absencesByMonth = DB::table('student_attendances')
+  	->leftJoin('students', 'student_attendances.student_id', '=', 'students.id')
+    ->select(DB::raw('student_id, YEAR(absent_date) as year, MONTH(absent_date) as month, COUNT(*) as absences'), 'students.name as studentName')
+    ->where('is_absent', true)
+  	->where('section_id', 2)
+    ->groupBy('student_id', 'year', 'month')
+    ->get()
+    ->groupBy('student_id')
+    ->map(function ($item) {
+        $year = 2023;
+        $result = [
+            'student_id' => $item->first()->student_id,
+		  	'studentName' => $item->first()->studentName,
+            'year' => $year,
+            'month_absents' => [],
+        ];
+        foreach(range(6, 12) as $month) {
+            $absences = $item->where('month', $month)->sum('absences');
+            $result['month_absents'][$month.'/'.($year-1)] = $absences;
+        }
+        foreach(range(1, 3) as $month) {
+            $absences = $item->where('month', $month)->sum('absences');
+            $result['month_absents'][$month.'/'.$year] = $absences;
+        }
+        return $result;
+    })
+    ->values()
+    ->toArray();
+
+
+$absencesByMonth = DB::table('student_attendances')
+  	->leftJoin('students', 'student_attendances.student_id', '=', 'students.id')
+    ->select(DB::raw('student_id, YEAR(absent_date) as year, MONTH(absent_date) as month, COUNT(*) as absences'), 'students.name as studentName')
+    ->where('is_absent', true)
+  	->where('section_id', 2)
+  	->whereBetween('absent_date', ['2022-06-01', '2023-03-31'])
+    ->groupBy('student_id', 'year', 'month')
+    ->get()
+    ->groupBy('student_id')
+    ->map(function ($item) {
+        $year = 2023;
+        $result = [
+            'student_id' => $item->first()->student_id,
+		  	'studentName' => $item->first()->studentName,
+            'year' => $year,
+            'month_absents' => [],
+        ];
+        foreach(range(6, 12) as $month) {
+            $absences = $item->where('month', $month)->sum('absences');
+            $result['month_absents'][$month] = $absences;
+        }
+        foreach(range(1, 3) as $month) {
+            $absences = $item->where('month', $month)->sum('absences');
+            $result['month_absents'][$month] = $absences;
+        }
+        return $result;
+    })
+    ->values()
+    ->toArray();

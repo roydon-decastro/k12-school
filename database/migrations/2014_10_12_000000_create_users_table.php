@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('profile_photo_path', 2048)->nullable();
-            $table->string('usertype')->nullable()->comment('Student,Employee,Admin');
+            $table->string('usertype')->nullable()->comment('Parent,Student,Employee,Admin');
             // $table->foreignId('school_id')->constrained()->cascadeOnDelete();
             $table->string('mobile')->nullable();
             $table->string('address')->nullable();
@@ -28,12 +28,11 @@ return new class extends Migration
             $table->string('id_no')->nullable();
             $table->date('dob')->nullable();
             $table->string('role')->nullable()
-                    ->comment('super_admin, admin1, admin_asst, teacher, employee, student');
+                ->comment('super_admin, admin1, admin_asst, teacher, employee, student');
             $table->date('join_date')->nullable();
             // $table->boolean('active')->defaultTrue()->comment('0=inactive,1=active')->nullable();
             $table->rememberToken();
             $table->timestamps();
-
         });
     }
 

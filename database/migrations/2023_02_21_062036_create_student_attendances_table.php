@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('section_id')->constrained()->cascadeOnDelete();
             $table->foreignId('student_id')->constrained()->cascadeOnDelete();
             $table->date('absent_date')->nullable();
+            $table->boolean('is_absent')->defaultFalse();
+            $table->json('subjects')->nullable();
             $table->text('note')->nullable();
             $table->timestamps();
         });

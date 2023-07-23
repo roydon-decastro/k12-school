@@ -55,4 +55,20 @@ class School extends Model
     {
         return $this->hasMany(LevelSubject::class);
     }
+
+    public function levelfees()
+    {
+        return $this->hasMany(LevelFee::class);
+    }
+
+    public function fees()
+    {
+        return $this->hasMany(Fee::class);
+    }
+
+    public function users()
+{
+    return $this->hasMany(User::class);
+}
+
 }

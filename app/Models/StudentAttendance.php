@@ -11,9 +11,16 @@ class StudentAttendance extends Model
 
     protected $fillable = [
         'school_id',
+        'level_id',
         'section_id',
         'student_id',
         'absent_date',
+        'is_absent',
+        'subjects',
         'note',
+    ];
+
+    protected $casts = [
+        'is_absent' => 'boolean',
     ];
 }

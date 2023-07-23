@@ -32,4 +32,9 @@ class SchoolYear extends Model
         return $this->hasMany(LevelSubject::class);
     }
 
+    public function level_fee()
+    {
+        return $this->belongsTo(LevelFee::class);
+    }
+
 }

@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Fee extends Model
+class LevelFee extends Model
 {
     use HasFactory;
-
     protected $fillable = [
-        'name',
         'school_id',
-        'description'
+        'schoolyear_id',
+        'level_id',
+        'fee_id',
+        'fee_amount'
     ];
 
     public function school()
@@ -25,14 +26,13 @@ class Fee extends Model
         return $this->belongsTo(Level::class);
     }
 
-
-    public function level_fees()
-    {
-        return $this->hasMany(LevelFee::class);
-    }
-
-    public function schoolYear()
+    public function school_year()
     {
         return $this->belongsTo(SchoolYear::class);
+    }
+
+    public function fee()
+    {
+        return $this->belongsTo(Fee::class);
     }
 }
